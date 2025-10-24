@@ -34,7 +34,7 @@ html,
   background-color: #fff;
   border-right: 1px solid #e5e7eb;
   display: flex;
-  justify-content: space-evenly;
+  gap: 50px;
   flex-direction: column;
   padding: 16px;
 }

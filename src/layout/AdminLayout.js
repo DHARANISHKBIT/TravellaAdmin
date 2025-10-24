@@ -18,14 +18,14 @@ function AdminLayout() {
           <span className="material-symbols-outlined">dashboard</span>
           Dashboard
         </NavLink>
-        <NavLink to="/destination" className={({ isActive }) => (isActive ? 'active' : '')}>
+        <NavLink to="/destinationpage" className={({ isActive }) => (isActive ? 'active' : '')}>
           <span className="material-symbols-outlined">explore</span>
           Destinations
         </NavLink>
-        <NavLink to="/places" className={({ isActive }) => (isActive ? 'active' : '')}>
+        {/* <NavLink to="/places" className={({ isActive }) => (isActive ? 'active' : '')}>
           <span className="material-symbols-outlined">place</span>
           Places
-        </NavLink>
+        </NavLink> */}
         <NavLink to="/hotels" className={({ isActive }) => (isActive ? 'active' : '')}>
           <span className="material-symbols-outlined">hotel</span>
           Hotels
@@ -41,10 +41,6 @@ function AdminLayout() {
         <NavLink to="/users" className={({ isActive }) => (isActive ? 'active' : '')}>
           <span className="material-symbols-outlined">group</span>
           Users
-        </NavLink>
-        <NavLink to="/reports" className={({ isActive }) => (isActive ? 'active' : '')}>
-          <span className="material-symbols-outlined">pie_chart</span>
-          Reports
         </NavLink>
       </aside>
 

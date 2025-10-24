@@ -1,0 +1,84 @@
+.destination-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 300px;
+  transition: transform 0.3s ease;
+}
+
+.destination-card:hover {
+  transform: translateY(-8px);
+}
+
+.destination-image {
+  width: 100%;
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+}
+
+.destination-details {
+  padding: 16px;
+}
+
+.destination-name {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 6px;
+}
+
+.destination-location {
+  display: flex;
+  align-items: center;
+  color: #777;
+  margin-bottom: 10px;
+}
+
+.destination-location span {
+  font-size: 20px;
+  margin-right: 6px;
+  color: #e63946;
+}
+
+.destination-description {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+.destination-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.destination-actions button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.edit-btn {
+  background-color: #0077b6;
+  color: #fff;
+}
+
+.edit-btn:hover {
+  background-color: #005f87;
+}
+
+.delete-btn {
+  background-color: #e63946;
+  color: #fff;
+}
+
+.delete-btn:hover {
+  background-color: #c52b38;
+}

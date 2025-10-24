@@ -9,6 +9,9 @@ import Places from './page/Places';
 import Bookings from './page/Bookings';
 import Users from './page/Users';
 import Reports from './page/Reports';
+import DestinationsPage from './page/Destinotionpage';
+import PlacesForDestination from './page/Placefordestination';
+import TripBookingDashboard from './page/Bookingdeatils';
 
 function App() {
   return (
@@ -17,10 +20,12 @@ function App() {
         <Route element={<AdminLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/destination" element={<Destination />} />
+          <Route path="/destinationpage" element={<DestinationsPage/>} />
+          <Route path="/Addplacefordestination" element={<PlacesForDestination/>} />
           <Route path="/places" element={<Places />} />
           <Route path="/hotels" element={<Hotels />} />
           <Route path="/car-rent" element={<CarRent />} />
-          <Route path="/bookings" element={<Bookings />} />
+          <Route path="/bookings" element={<TripBookingDashboard/>} />
           <Route path="/users" element={<Users />} />
           <Route path="/reports" element={<Reports />} />
         </Route>
