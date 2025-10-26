@@ -1,20 +1,26 @@
 /* AddHotel.css */
 
 /* General Styles */
-body, html, #root {
+/* body,
+html,
+#root {
   margin: 0;
   padding: 0;
   font-family: 'Work Sans', sans-serif;
   background-color: #f6f7f8;
   color: #111618;
-}
+} */
 
 /* Layout */
 .add-hotel {
   display: flex;
-  min-height: 100vh;
-  padding: 20px;
-  align-items: center;
+  justify-content: center;
+  align-items: flex-start;
+  max-height: 100vh;
+  font-family: "Work Sans", sans-serif;
+  padding: 10px 0;
+  overflow-y: scroll;
+  scrollbar-width: none;
 }
 
 
@@ -111,6 +117,11 @@ form button {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+.select{
+  height: 50px;
+  border: 1px solid rgb(194, 191, 191);
+  border-radius: 5px;
 }
 
 .success-alert.show {

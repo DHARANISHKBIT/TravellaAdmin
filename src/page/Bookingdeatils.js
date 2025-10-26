@@ -1,137 +1,171 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./BookingDeatilscss.css";
 
-const initialBookings = [
-  {
-    id: 1,
-    user: "John Doe",
-    destination: "Paris, France",
-    dates: "June 1, 2024 - June 10, 2024",
-    travelers: "2 Adults",
-    status: "Pending",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBVeM7dxd6XahmwwyH4ST4xnt6LeFrepHqjq217HH7edkltnbb14V88woKz4DTyytPlzSGUXnnyMUL-Tg1ZJ2gW1weSw4nEWG_O7xCn2uECBHVM0C8VXk5vGWuZDwKEKzbWqFAuFyn5FXC7lLBzG8ZhZPpr0Ovjkc752DHpbvN_Y1lq_wmmh80mpAqCaP3ttEz0CuX67KiyC94QGcogfW-OAZ70mKsHHejxbLYPKzvbnOBxyHIa5HfGZWpYMDiTvNhl5X3UDeW7MU0"
-  },
-  {
-    id: 2,
-    user: "Jane Smith",
-    destination: "Tokyo, Japan",
-    dates: "July 15, 2024 - July 25, 2024",
-    travelers: "3 Adults",
-    status: "Approved",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBiMWCt4CZaGY9xR4Nwe5T3ZcTtKQA-68x6anBoW7ylca3AM9boBGNojEiAvF7fwX_AzwKXsGzKyJknbMgsYxGNn-ZIIry6vjXBi8T-52zen7j7G9utC-3X5N0zpXRNihSdsbq9ReY7CIYPDPUorvhwbm18yeXHlH4SMpXKFGaviMOtldH4ycdL7X1ZW5RMP4BU21Vxyd9gCOgJDx1-Pp1xlfbsApcvXwpLZw5UFbrgqlUR0kxOfFhS1Wd8X3Anmu1qdA2fQ8odb6M"
-  },
-  {
-    id: 3,
-    user: "John Doe",
-    destination: "Paris, France",
-    dates: "June 1, 2024 - June 10, 2024",
-    travelers: "2 Adults",
-    status: "Pending",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBVeM7dxd6XahmwwyH4ST4xnt6LeFrepHqjq217HH7edkltnbb14V88woKz4DTyytPlzSGUXnnyMUL-Tg1ZJ2gW1weSw4nEWG_O7xCn2uECBHVM0C8VXk5vGWuZDwKEKzbWqFAuFyn5FXC7lLBzG8ZhZPpr0Ovjkc752DHpbvN_Y1lq_wmmh80mpAqCaP3ttEz0CuX67KiyC94QGcogfW-OAZ70mKsHHejxbLYPKzvbnOBxyHIa5HfGZWpYMDiTvNhl5X3UDeW7MU0"
-  },
-  {
-    id: 4,
-    user: "Jane Smith",
-    destination: "Tokyo, Japan",
-    dates: "July 15, 2024 - July 25, 2024",
-    travelers: "3 Adults",
-    status: "Approved",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBiMWCt4CZaGY9xR4Nwe5T3ZcTtKQA-68x6anBoW7ylca3AM9boBGNojEiAvF7fwX_AzwKXsGzKyJknbMgsYxGNn-ZIIry6vjXBi8T-52zen7j7G9utC-3X5N0zpXRNihSdsbq9ReY7CIYPDPUorvhwbm18yeXHlH4SMpXKFGaviMOtldH4ycdL7X1ZW5RMP4BU21Vxyd9gCOgJDx1-Pp1xlfbsApcvXwpLZw5UFbrgqlUR0kxOfFhS1Wd8X3Anmu1qdA2fQ8odb6M"
-  },
-  {
-    id: 5,
-    user: "John Doe",
-    destination: "Paris, France",
-    dates: "June 1, 2024 - June 10, 2024",
-    travelers: "2 Adults",
-    status: "Pending",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBVeM7dxd6XahmwwyH4ST4xnt6LeFrepHqjq217HH7edkltnbb14V88woKz4DTyytPlzSGUXnnyMUL-Tg1ZJ2gW1weSw4nEWG_O7xCn2uECBHVM0C8VXk5vGWuZDwKEKzbWqFAuFyn5FXC7lLBzG8ZhZPpr0Ovjkc752DHpbvN_Y1lq_wmmh80mpAqCaP3ttEz0CuX67KiyC94QGcogfW-OAZ70mKsHHejxbLYPKzvbnOBxyHIa5HfGZWpYMDiTvNhl5X3UDeW7MU0"
-  },
-  {
-    id: 6,
-    user: "Jane Smith",
-    destination: "Tokyo, Japan",
-    dates: "July 15, 2024 - July 25, 2024",
-    travelers: "3 Adults",
-    status: "Rejected",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBiMWCt4CZaGY9xR4Nwe5T3ZcTtKQA-68x6anBoW7ylca3AM9boBGNojEiAvF7fwX_AzwKXsGzKyJknbMgsYxGNn-ZIIry6vjXBi8T-52zen7j7G9utC-3X5N0zpXRNihSdsbq9ReY7CIYPDPUorvhwbm18yeXHlH4SMpXKFGaviMOtldH4ycdL7X1ZW5RMP4BU21Vxyd9gCOgJDx1-Pp1xlfbsApcvXwpLZw5UFbrgqlUR0kxOfFhS1Wd8X3Anmu1qdA2fQ8odb6M"
-  },
-  // Add more bookings...
-];
-
 const TripBookingDashboard = () => {
-  const [bookings, setBookings] = useState(initialBookings);
+  const [bookings, setBookings] = useState([]);
   const [filter, setFilter] = useState("All");
   const [modal, setModal] = useState({ isOpen: false, bookingIndex: null, action: "" });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Filtered bookings based on selected status
-  const filteredBookings = filter === "All" 
-    ? bookings 
-    : bookings.filter(b => b.status === filter);
+  const token = localStorage.getItem("authToken");
 
+  // ✅ Fetch all bookings
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        const res = await fetch(
+          "https://travella-server-v2.onrender.com/api/bookings/userbookings",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!res.ok) throw new Error("Failed to fetch bookings");
+
+        const data = await res.json();
+        setBookings(Array.isArray(data) ? data : []);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (token) fetchBookings();
+    else {
+      setError("No authentication token found. Please log in again.");
+      setLoading(false);
+    }
+  }, [token]);
+
+  // ✅ Filter bookings by status
+  const filteredBookings =
+    filter === "All" ? bookings : bookings.filter((b) => b.status === filter);
+
+  // ✅ Open modal for approve/reject
   const handleActionClick = (index, action) => {
     setModal({ isOpen: true, bookingIndex: index, action });
   };
 
-  const handleConfirm = () => {
-    setBookings((prev) =>
-      prev.map((b, idx) =>
-        idx === modal.bookingIndex ? { ...b, status: modal.action } : b
-      )
-    );
-    setModal({ isOpen: false, bookingIndex: null, action: "" });
+  // ✅ Confirm update
+  const handleConfirm = async () => {
+    const booking = bookings[modal.bookingIndex];
+    if (!booking?._id) return;
+
+    try {
+      const res = await fetch(
+        `https://travella-server-v2.onrender.com/api/bookings/${booking._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ status: modal.action }),
+        }
+      );
+
+      if (!res.ok) throw new Error("Failed to update booking status");
+
+      // Update state locally
+      setBookings((prev) =>
+        prev.map((b, idx) =>
+          idx === modal.bookingIndex ? { ...b, status: modal.action } : b
+        )
+      );
+
+      alert(`Booking ${modal.action.toLowerCase()} successfully!`);
+    } catch (err) {
+      alert(`Error updating booking: ${err.message}`);
+    } finally {
+      setModal({ isOpen: false, bookingIndex: null, action: "" });
+    }
   };
 
   const handleCancel = () => setModal({ isOpen: false, bookingIndex: null, action: "" });
+
+  // ✅ Helper for date range formatting
+  const formatDate = (start, end) => {
+    const s = new Date(start).toLocaleDateString();
+    const e = new Date(end).toLocaleDateString();
+    return `${s} → ${e}`;
+  };
+
+  // ✅ Render
+  if (loading) return <p className="loading">Loading bookings...</p>;
+  if (error) return <p className="error">Error: {error}</p>;
 
   return (
     <div className="dashboard-container">
       <h1 className="dashboard-title">Trip Booking Management</h1>
 
-      {/* Status Filters */}
+      {/* ✅ Status Filters */}
       <div className="status-filters">
-        {["All", "Pending", "Approved", "Rejected"].map((status) => (
+        {["All", "pending", "Approved", "Rejected"].map((status) => (
           <div
             key={status}
-            className={`status-filter ${filter === status ? "active" : ""}`}
+            className={`status-filter ${
+              filter.toLowerCase() === status.toLowerCase() ? "active" : ""
+            }`}
             onClick={() => setFilter(status)}
           >
-            {status}
+            {status.charAt(0).toUpperCase() + status.slice(1)}
           </div>
         ))}
       </div>
 
-      {/* Bookings Grid */}
+      {/* ✅ Bookings Grid */}
       <div className="bookings-grid">
         {filteredBookings.length === 0 ? (
           <p>No bookings found.</p>
         ) : (
-          filteredBookings.map((booking) => {
-            const bookingIndex = bookings.indexOf(booking);
+          filteredBookings.map((booking, index) => {
+            const userName = booking?.userId?.username || "Unknown User";
+            const destinationName = booking?.destinationId?.name || "Unknown Destination";
+            const destinationImage =
+              booking?.destinationId?.images?.[0] ||
+              "https://cdn-icons-png.flaticon.com/512/201/201623.png";
+            const start = booking?.startDate;
+            const end = booking?.endDate;
+            const guests = booking?.guests || 1;
+            const status = booking?.status || "pending";
+
             return (
-              <div key={bookingIndex} className="booking-card">
+              <div key={booking._id || index} className="booking-card">
                 <div
                   className="booking-image"
-                  style={{ backgroundImage: `url(${booking.image})` }}
+                  style={{
+                    backgroundImage: `url(${destinationImage})`,
+                  }}
                 ></div>
+
                 <div className="booking-info">
-                  <p className="booking-user">{booking.user} to {booking.destination}</p>
-                  <p className="booking-dates">{booking.dates}</p>
-                  <p className="booking-travelers">{booking.travelers}</p>
-                  <div className={`booking-status ${booking.status.toLowerCase()}`}>
-                    {booking.status}
+                  <p className="booking-user">
+                    <strong>{userName}</strong> booked <strong>{destinationName}</strong>
+                  </p>
+                  <p className="booking-dates">{formatDate(start, end)}</p>
+                  <p className="booking-travelers">Guests: {guests}</p>
+
+                  <div className={`booking-status ${status.toLowerCase()}`}>
+                    {status.charAt(0).toUpperCase() + status.slice(1)}
                   </div>
+
                   <div className="booking-actions">
                     <button
-                      onClick={() => handleActionClick(bookingIndex, "Approved")}
-                      disabled={booking.status === "Approved"}
+                      onClick={() => handleActionClick(index, "Approved")}
+                      disabled={status === "Approved"}
                       className="approve-btn"
                     >
                       Approve
                     </button>
                     <button
-                      onClick={() => handleActionClick(bookingIndex, "Rejected")}
-                      disabled={booking.status === "Rejected"}
+                      onClick={() => handleActionClick(index, "Rejected")}
+                      disabled={status === "Rejected"}
                       className="reject-btn"
                     >
                       Reject
@@ -144,15 +178,22 @@ const TripBookingDashboard = () => {
         )}
       </div>
 
-      {/* Modal */}
+      {/* ✅ Modal */}
       {modal.isOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
             <h2>Confirm Action</h2>
-            <p>Are you sure you want to {modal.action.toLowerCase()} this booking?</p>
+            <p>
+              Are you sure you want to{" "}
+              <strong>{modal.action.toLowerCase()}</strong> this booking?
+            </p>
             <div className="modal-actions">
-              <button onClick={handleCancel} className="cancel-btn">Cancel</button>
-              <button onClick={handleConfirm} className="confirm-btn">Confirm</button>
+              <button onClick={handleCancel} className="cancel-btn">
+                Cancel
+              </button>
+              <button onClick={handleConfirm} className="confirm-btn">
+                Confirm
+              </button>
             </div>
           </div>
         </div>

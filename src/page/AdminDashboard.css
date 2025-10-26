@@ -66,7 +66,7 @@ html,
 }
 
 /* Main Content */
-.main-content {
+.main-contentt {
   flex: 1;
 }
 
@@ -97,6 +97,7 @@ html,
 }
 
 .stats-card {
+  color: #111618;
   background-color: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
@@ -106,6 +107,7 @@ html,
 .stats-card .value {
   font-size: 24px;
   font-weight: bold;
+  color: #111618;
   margin: 8px 0;
 }
 
@@ -141,10 +143,7 @@ html,
   border: 1px solid #1193d4;
 }
 
-.quick-actions button:hover {
-  border-color: #1193d4;
-  color: #1193d4;
-}
+
 
 /* Recent Activity */
 .recent-activity ul {

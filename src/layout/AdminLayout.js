@@ -45,7 +45,7 @@ function AdminLayout() {
       </aside>
 
       {/* Main Content */}
-      <main className="main-content">
+      <main className="main-contentt">
         <Outlet />
       </main>
     </div>

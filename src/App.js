@@ -12,6 +12,7 @@ import Reports from './page/Reports';
 import DestinationsPage from './page/Destinotionpage';
 import PlacesForDestination from './page/Placefordestination';
 import TripBookingDashboard from './page/Bookingdeatils';
+import AddPlace from './page/Addplace';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/destination" element={<Destination />} />
           <Route path="/destinationpage" element={<DestinationsPage/>} />
           <Route path="/Addplacefordestination" element={<PlacesForDestination/>} />
+          <Route path="/Addplace" element={<AddPlace/>} />
           <Route path="/places" element={<Places />} />
           <Route path="/hotels" element={<Hotels />} />
           <Route path="/car-rent" element={<CarRent />} />

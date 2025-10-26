@@ -38,12 +38,12 @@
 .destination-list {
   margin-top: 10px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
   gap: 25px;
-  width: 100%;
+  width: 100vw;
   max-width: 1200px;
   justify-items: center;
-
+  scrollbar-width: none;
   /* Enable scrolling */
   max-height: 70vh; /* Adjust height as needed */
   overflow-y: auto;

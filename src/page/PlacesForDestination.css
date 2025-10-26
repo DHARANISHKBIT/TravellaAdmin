@@ -20,6 +20,7 @@ body {
 .destination-header {
   position: relative;
   background: white;
+  /* display: flex; */
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
@@ -36,6 +37,7 @@ body {
   padding: 30px;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5));
   position: absolute;
+  text-align: center;
   bottom: 0;
   left: 0;
   right: 0;
@@ -140,6 +142,7 @@ body {
   animation: fadeIn 0.3s ease;
 }
 
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -153,9 +156,10 @@ body {
   background: white;
   border-radius: 15px;
   width: 90%;
-  max-width: 600px;
+  max-width: 90vw;
   max-height: 90vh;
   overflow-y: auto;
+  scrollbar-width: none;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   animation: slideUp 0.3s ease;
 }
@@ -175,10 +179,12 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 25px 30px;
+  padding: 2px 30px;
+  border-radius: 5px;
   border-bottom: 2px solid #f0f0f0;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
+  margin-bottom: 10px;
 }
 
 .modal-header h2 {
@@ -238,7 +244,7 @@ body {
   min-height: 100px;
 }
 
-.modal-actions {
+/* .modal-actions {
   display: flex;
   gap: 15px;
   justify-content: flex-end;
@@ -258,6 +264,8 @@ body {
 
 .cancel-btn {
   background: #e0e0e0;
+  height: 50px;
+  width: 120px;
   color: #333;
 }
 
@@ -275,7 +283,7 @@ body {
 .submit-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-}
+} */
 
 /* Responsive Design */
 @media (max-width: 768px) {

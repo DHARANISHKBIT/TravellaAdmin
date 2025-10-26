@@ -4,8 +4,15 @@ import { useNavigate } from "react-router-dom";
 
 const DestinationCard = ({ destination, onDelete }) => {
   const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate("/Addplacefordestination", {
+      state: { destinationId: destination.id, destinationName: destination.name ,destinationImage:destination.image},
+    });
+  };
+
   return (
-    <div className="destination-card" onClick={() => navigate('/Addplacefordestination')}>
+    <div className="destination-card" onClick={handleCardClick}>
       <div
         className="destination-image"
         style={{ backgroundImage: `url(${destination.image})` }}
@@ -18,12 +25,15 @@ const DestinationCard = ({ destination, onDelete }) => {
         </div>
         <p className="destination-description">{destination.description}</p>
         <div className="destination-actions">
-          <button className="edit-btn" >
+          <button className="edit-btn">
             <span className="material-symbols-outlined">edit</span>Edit
           </button>
           <button
             className="delete-btn"
-            onClick={() => onDelete(destination.id)}
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent navigation when deleting
+              onDelete(destination.id);
+            }}
           >
             <span className="material-symbols-outlined">delete</span>Delete
           </button>

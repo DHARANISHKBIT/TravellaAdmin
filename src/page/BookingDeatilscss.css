@@ -1,6 +1,8 @@
 .dashboard-container {
     overflow-y: scroll;
+    scrollbar-width: none;
     display: grid;
+    margin-top: 30px;
     grid-template-rows: auto 1fr;
     gap: 20px;
     font-family: 'Inter', sans-serif;
@@ -11,6 +13,7 @@
 
 .dashboard-title {
     font-size: 32px;
+    text-align: center;
     font-weight: 800;
 }
 
@@ -23,8 +26,8 @@
 }
 
 .status-filter {
-    margin-left: 10px;
-    padding: 5px 20px;
+    margin-left: 20px;
+    padding: 5px 25px;
     border-radius: 8px;
     background-color: #dbeafe;
     color: #1d4ed8;
@@ -86,7 +89,7 @@
 
 .booking-status {
     display: inline-block;
-    padding: 4px 8px;
+    padding: 10px 14px;
     border-radius: 6px;
     font-size: 12px;
     font-weight: 600;

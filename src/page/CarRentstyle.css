@@ -1,99 +1,111 @@
-/* AddCarRental.css */
-
-/* General styles */
-body, html, #root {
-  margin: 0;
-  padding: 0;
-  font-family: 'Work Sans', sans-serif;
-  background-color: #f6f7f8;
-  color: #111618;
-}
-
-/* Layout */
 .add-car-rental {
   display: flex;
-  min-height: 100vh;
-  padding: 20px;
-  align-items: center;
+  justify-content: center;
+  align-items: flex-start;
+  max-height: 100vh;
+  font-family: "Work Sans", sans-serif;
+  padding: 40px 0;
+  overflow-y: scroll;
+  scrollbar-width: none;
 }
 
-
-
-/* Main Content */
 .main-content {
-  flex: 1;
-  margin: 0 auto;
-}
-
-/* Page heading */
-.main-content h1 {
-  font-size: 32px;
-  font-weight: 900;
-  margin-bottom: 8px;
-}
-
-.main-content p.subtitle {
-  color: #617c89;
-  font-size: 16px;
-  margin-bottom: 24px;
-}
-
-/* Form */
-form {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  background-color: #fff;
-  padding: 32px;
   border-radius: 16px;
-  border: 1px solid #dbe2e6;
+  width: 70%;
+  /* max-width: 800px; */
+  padding: 40px 50px;
 }
 
-form label {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+.page-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #1f2937;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
-form input {
-  padding: 12px 16px;
-  border-radius: 12px;
-  border: 1px solid #dbe2e6;
-  font-size: 16px;
-  color: #111618;
-}
-
-form input:focus {
-  outline: none;
-  border-color: #1193d4;
-  box-shadow: 0 0 0 2px rgba(17, 147, 212, 0.2);
-}
-
-form button {
-  grid-column: span 2;
-  padding: 12px 24px;
-  border-radius: 12px;
-  border: none;
-  background-color: #1193d4;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
+.subtitle {
+  text-align: center;
+  color: #6b7280;
+  margin-bottom: 30px;
   font-size: 16px;
 }
 
-/* Success Alert */
 .success-alert {
-  display: none;
-  margin-top: 16px;
-  padding: 12px 16px;
-  background-color: #d1fae5;
-  border: 1px solid #10b981;
-  border-radius: 8px;
   color: #065f46;
-}
-
-.success-alert.show {
+  border-radius: 8px;
+  padding: 12px 15px;
   display: flex;
   align-items: center;
   gap: 8px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+label {
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+input {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 15px;
+  color: #1f2937;
+  outline: none;
+}
+
+input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+button {
+  background-color: #3b82f6;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background-color: #2563eb;
+}
+
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
