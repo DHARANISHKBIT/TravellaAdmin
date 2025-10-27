@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./CarRentalsPage.css";
 import { useNavigate } from "react-router-dom";
+import { api } from "../services/api";
 
 const CarRentalsPage = () => {
   const navigate = useNavigate();
@@ -22,17 +23,8 @@ const CarRentalsPage = () => {
   // Fetch cars
   useEffect(() => {
     const fetchCars = async () => {
-      const token = localStorage.getItem("authToken");
-      if (!token) {
-        alert("⚠️ Please log in first.");
-        setLoading(false);
-        return;
-      }
-
       try {
-        const res = await fetch("https://travella-server-v2.onrender.com/api/carrentals", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await api.getCarRentals();
         if (!res.ok) throw new Error("Failed to fetch car rentals");
         const data = await res.json();
 
@@ -59,17 +51,9 @@ const CarRentalsPage = () => {
   // Delete car
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this car?")) return;
-    const token = localStorage.getItem("authToken");
-    if (!token) return alert("⚠️ Please log in first.");
 
     try {
-      const res = await fetch(`https://travella-server-v2.onrender.com/api/carrentals/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await api.deleteCarRental(id);
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Failed to delete car");
 
@@ -89,8 +73,6 @@ const CarRentalsPage = () => {
   // Update Car (PUT)
   const handleUpdate = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("authToken");
-    if (!token) return alert("⚠️ Please log in first.");
 
     const updatedData = {
       provider: editCar.provider,
@@ -101,17 +83,7 @@ const CarRentalsPage = () => {
     };
 
     try {
-      const res = await fetch(
-        `https://travella-server-v2.onrender.com/api/carrentals/${editCar.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(updatedData),
-        }
-      );
+      const res = await api.updateCarRental(editCar.id, updatedData);
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Failed to update car");
 

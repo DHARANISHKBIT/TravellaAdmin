@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import DestinationCard from "../component/Destinationcomponent.js";
 import "./Destinationpagecss.css";
 import { useNavigate } from "react-router-dom";
+import { api } from "../services/api";
 
 const DestinationsPage = () => {
   const navigate = useNavigate();
@@ -26,9 +27,7 @@ const DestinationsPage = () => {
   useEffect(() => {
     const fetchDestinations = async () => {
       try {
-        const response = await fetch(
-          "https://travella-server-v2.onrender.com/api/destinations"
-        );
+        const response = await api.getDestinations();
         if (!response.ok) throw new Error("Failed to fetch destinations");
         const data = await response.json();
 
@@ -62,24 +61,8 @@ const DestinationsPage = () => {
     );
     if (!confirmDelete) return;
 
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-      alert("⚠️ Please log in first.");
-      return;
-    }
-
     try {
-      const response = await fetch(
-        `https://travella-server-v2.onrender.com/api/destinations/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
+      const response = await api.deleteDestination(id);
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Failed to delete");
 
@@ -109,12 +92,6 @@ const DestinationsPage = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
 
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-      alert("⚠️ Please log in first.");
-      return;
-    }
-
     const updatedData = {
       name: editDestination.name.trim(),
       description: editDestination.description.trim(),
@@ -126,18 +103,7 @@ const DestinationsPage = () => {
     };
 
     try {
-      const response = await fetch(
-        `https://travella-server-v2.onrender.com/api/destinations/${editDestination.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(updatedData),
-        }
-      );
-
+      const response = await api.updateDestination(editDestination.id, updatedData);
       const data = await response.json();
       if (!response.ok)
         throw new Error(data.message || "Failed to update destination");

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./HotelPagecss.css";
 import { useNavigate } from "react-router-dom";
+import { api } from "../services/api";
 
 const HotelsPage = () => {
   const navigate = useNavigate();
@@ -21,20 +22,8 @@ const HotelsPage = () => {
   // ✅ Fetch all hotels (GET)
   useEffect(() => {
     const fetchHotels = async () => {
-      const token = localStorage.getItem("authToken");
-      if (!token) {
-        alert("⚠️ Please log in first.");
-        setLoading(false);
-        return;
-      }
-
       try {
-        const response = await fetch("https://travella-server-v2.onrender.com/api/hotels", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
+        const response = await api.getHotels();
         if (!response.ok) throw new Error("Failed to fetch hotels");
         const data = await response.json();
 
@@ -63,21 +52,8 @@ const HotelsPage = () => {
     const confirmDelete = window.confirm("Are you sure you want to delete this hotel?");
     if (!confirmDelete) return;
 
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-      alert("⚠️ Please log in first.");
-      return;
-    }
-
     try {
-      const response = await fetch(`https://travella-server-v2.onrender.com/api/hotels/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
+      const response = await api.deleteHotel(id);
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Failed to delete");
 
@@ -104,12 +80,6 @@ const HotelsPage = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
 
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-      alert("⚠️ Please log in first.");
-      return;
-    }
-
     const updatedData = {
       name: editHotel.name,
       city: editHotel.city,
@@ -118,18 +88,7 @@ const HotelsPage = () => {
     };
 
     try {
-      const response = await fetch(
-        `https://travella-server-v2.onrender.com/api/hotels/${editHotel.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(updatedData),
-        }
-      );
-
+      const response = await api.updateHotel(editHotel.id, updatedData);
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Failed to update");
 

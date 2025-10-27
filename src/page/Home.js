@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./AdminDashboard.css";
 import { useNavigate } from "react-router-dom";
+import { api } from "../services/api";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  const token = localStorage.getItem("authToken");
 
   // 🔹 All dashboard stats
   const [stats, setStats] = useState({
@@ -21,68 +21,29 @@ const AdminDashboard = () => {
 
   // ✅ Fetch all stats and bookings
   useEffect(() => {
-    if (!token) {
-      setError("No authentication token found. Please log in again.");
-      setLoading(false);
-      return;
-    }
-
     const fetchDashboardData = async () => {
       try {
         // 🟢 1. Fetch booking stats
-        const bookingRes = await fetch(
-          "https://travella-server-v2.onrender.com/api/bookings/stats",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const bookingRes = await api.getBookingStats();
         const bookingData = await bookingRes.json();
 
         // 🟢 2. Fetch user list
-        const usersRes = await fetch(
-          "https://travella-server-v2.onrender.com/api/auth/userlist",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const usersRes = await api.getUserList();
         const usersData = await usersRes.json();
 
         // 🟢 3. Fetch destinations
-        const destinationsRes = await fetch(
-          "https://travella-server-v2.onrender.com/api/destinations",
-          {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-          }
-        );
+        const destinationsRes = await api.getDestinations();
         const destinationsData = await destinationsRes.json();
 
         // 🟢 4. Fetch all bookings for recent activity
-        const bookingsRes = await fetch(
-          "https://travella-server-v2.onrender.com/api/bookings/userbookings",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const bookingsRes = await api.getUserBookings();
         const bookingsData = await bookingsRes.json();
 
         // ✅ Update all dashboard stats
         setStats({
           totalBookings: bookingData?.totalBookings || 0,
           pendingBookings: bookingData?.pendingBookings || 0,
-          totalUsers: Array.isArray(usersData) ? usersData.length : 0,
+          totalUsers: usersData.userCount || 0,
           totalDestinations: Array.isArray(destinationsData)
             ? destinationsData.length
             : 0,
@@ -98,7 +59,7 @@ const AdminDashboard = () => {
     };
 
     fetchDashboardData();
-  }, [token]);
+  }, []);
 
   // ✅ Navigation handler
   const handleOnClick = (name) => {

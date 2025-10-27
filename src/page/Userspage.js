@@ -1,66 +1,74 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Userspage.css";
+import { useAuth } from "../context/AuthContext"; // ✅ Import AuthContext
 
 function Users() {
-  const [users] = useState([
-    {
-      _id: "68f4dc532afe76076fec4611",
-      username: "testuser",
-      email: "test@email.com",
-      role: "user",
-    },
-    {
-      _id: "68f4de2340d0d84a5ebefc47",
-      username: "adminuser",
-      email: "admin@email.com",
-      role: "admin",
-    },
-    {
-      _id: "68f5176da3fd88f21de549a4",
-      username: "prasanth",
-      email: "prasanth.it23@bitsathy.ac.in",
-      role: "user",
-    },
-    {
-      _id: "68fb9e12b7dd9b20e21d0f21",
-      username: "johndoe",
-      email: "john@example.com",
-      role: "admin",
-    },
-    {
-      _id: "68fbbf22ba69a68fb00090d8",
-      username: "prasanth45bit",
-      email: "prasanthpalanisamy4@gmail.com",
-      role: "user",
-    },
-    {
-      _id: "68fcec6af19d914756f954cd",
-      username: "dharanish",
-      email: "dharanish@example.com",
-      role: "user",
-    },
-    {
-      _id: "68fcf392f19d914756f9550b",
-      username: "Thiruselvan",
-      email: "thiruselvan.cs23@bitsathy.ac.in",
-      role: "user",
-    },
-    {
-      _id: "68fcf5a3f19d914756f9552b",
-      username: "Harini",
-      email: "harinishanmugaa24@gmail.com",
-      role: "user",
-    },
-  ]);
+  const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  // 🟢 Filter only users
-  const filteredUsers = users.filter((user) => user.role === "user");
+  const { user } = useAuth(); // ✅ Get token & username from context
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      setIsLoading(true);
+      setError("");
+
+      
+
+      try {
+        const response = await fetch("https://travella-server-v2.onrender.com/api/auth/userlist", {
+          method: "GET", // ✅ Usually user list = GET request
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.token}`,
+          },
+        });
+
+        const data = await response.json();
+        console.log("Fetched users:", data);
+
+        if (!response.ok) {
+          setError(data.message || "Failed to load users.");
+          return;
+        }
+
+        // ✅ Handle both array or wrapped object
+        if (Array.isArray(data)) {
+          setUsers(data);
+        } else if (data.users) {
+          setUsers(data.users);
+        } else {
+          setError("Unexpected response format.");
+        }
+      } catch (err) {
+        console.error("Error fetching users:", err);
+        setError("An unexpected error occurred while fetching users.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    // 🧠 Only fetch if user is logged in
+    if (user?.token) {
+      fetchUsers();
+    } else {
+      setError("Unauthorized: Please log in as admin to view user list.");
+    }
+  }, [user]);
+
+  // 🟢 Filter only users (not admins)
+  const filteredUsers = users.filter((u) => u.role === "user");
 
   return (
     <div className="users-container">
       <h1 className="users-title">User List</h1>
 
-      {filteredUsers.length === 0 ? (
+      {isLoading ? (
+        <p className="loading-text">Loading users...</p>
+      ) : error ? (
+        <p className="error-text">{error}</p>
+      ) : filteredUsers.length === 0 ? (
         <p className="no-users">No users found.</p>
       ) : (
         <div className="user-card-grid">

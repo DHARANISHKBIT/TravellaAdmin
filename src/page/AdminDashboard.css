@@ -29,20 +29,27 @@ html,
 
 /* Sidebar */
 .sidebar {
-  height: 780px;
+  height: 100vh;
   width: 250px;
   background-color: #fff;
   border-right: 1px solid #e5e7eb;
   display: flex;
-  gap: 50px;
   flex-direction: column;
   padding: 16px;
+  gap: 20px;
 }
 
 .sidebar h1 {
   font-size: 20px;
   font-weight: bold;
   margin-left: 8px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
 }
 
 .sidebar a {
@@ -193,4 +200,57 @@ html,
 .activity-info .text {
   color: #6b7280;
   font-size: 14px;
+}
+
+/* Sidebar Footer */
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 8px;
+  background-color: #f9fafb;
+  border-radius: 8px;
+}
+
+.user-info .material-symbols-outlined {
+  color: #6b7280;
+  font-size: 20px;
+}
+
+.user-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.logout-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: none;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  color: #dc2626;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.logout-btn:hover {
+  background-color: #fef2f2;
+  border-color: #fecaca;
+}
+
+.logout-btn .material-symbols-outlined {
+  font-size: 18px;
 }
