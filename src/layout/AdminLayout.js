@@ -26,11 +26,11 @@ function AdminLayout() {
           <span className="material-symbols-outlined">place</span>
           Places
         </NavLink> */}
-        <NavLink to="/hotels" className={({ isActive }) => (isActive ? 'active' : '')}>
+        <NavLink to="/hotelpage" className={({ isActive }) => (isActive ? 'active' : '')}>
           <span className="material-symbols-outlined">hotel</span>
           Hotels
         </NavLink>
-        <NavLink to="/car-rent" className={({ isActive }) => (isActive ? 'active' : '')}>
+        <NavLink to="/car-rent-page" className={({ isActive }) => (isActive ? 'active' : '')}>
           <span className="material-symbols-outlined">directions_car</span>
           Car Rentals
         </NavLink>

@@ -1,0 +1,245 @@
+/* ===== Page Container ===== */
+.cars-page {
+  padding: 40px;
+  background-color: #f9f9f9;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ 
+}
+
+/* Page Title */
+.cars-page h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* ===== Add Car Button ===== */
+.btn {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 25px;
+}
+
+.add-car-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #0077b6;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.add-car-btn:hover {
+  background-color: #005f8f;
+  transform: scale(1.05);
+}
+
+/* ===== Car Grid ===== */
+.car-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  width: 100%;
+   overflow-y: scroll;
+  scrollbar-width: none;
+  max-width: 1200px;
+}
+
+/* ===== Car Card ===== */
+.car-card {
+  background: #fff;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.car-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.car-card img.hotel-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.car-card h3 {
+  margin: 5px 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.car-card p {
+  margin: 3px 0;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+/* ===== Action Buttons ===== */
+.car-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.car-actions button {
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.car-actions button:hover {
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+
+.car-actions button.delete {
+  background-color: #e63946;
+  color: white;
+}
+
+.car-actions button:not(.delete) {
+  background-color: #0077b6;
+  color: white;
+}
+
+/* ===== Modal ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Modal Title */
+.modal h2 {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+/* Modal Form */
+.modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal input,
+.modal textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.modal input:focus,
+.modal textarea:focus {
+  outline: none;
+  border-color: #0077b6;
+}
+
+/* Modal Actions */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.modal-actions button {
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.modal-actions button:hover {
+  transform: scale(1.05);
+}
+
+.modal-actions button[type="button"] {
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+.modal-actions button[type="button"]:hover {
+  background-color: #e0e0e0;
+}
+
+.modal-actions .save-btn {
+  background-color: #0077b6;
+  color: white;
+}
+
+.modal-actions .save-btn:hover {
+  background-color: #005f8f;
+}
+
+/* ===== Loading & Error ===== */
+.loading,
+.error {
+  font-size: 1.2rem;
+  color: #555;
+  margin-top: 50px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 500px) {
+  .car-card {
+    width: 100%;
+  }
+
+  .modal {
+    width: 90%;
+  }
+}

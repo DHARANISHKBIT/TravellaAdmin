@@ -45,18 +45,21 @@ const DestinationsPage = () => {
         }));
 
         setDestinations(formattedData);
-        setLoading(false);
       } catch (err) {
         setError(err.message);
+      } finally {
         setLoading(false);
       }
     };
+
     fetchDestinations();
-  }, []);
+  }, []); // ✅ only run on mount
 
   // ✅ DELETE Destination
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this destination?");
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this destination?"
+    );
     if (!confirmDelete) return;
 
     const token = localStorage.getItem("authToken");
@@ -113,13 +116,13 @@ const DestinationsPage = () => {
     }
 
     const updatedData = {
-      name: editDestination.name,
-      description: editDestination.description,
-      country: editDestination.country,
-      state: editDestination.state,
-      city: editDestination.city,
-      bestSeason: editDestination.bestSeason,
-      images: [editDestination.image],
+      name: editDestination.name.trim(),
+      description: editDestination.description.trim(),
+      country: editDestination.country.trim(),
+      state: editDestination.state.trim(),
+      city: editDestination.city.trim(),
+      bestSeason: editDestination.bestSeason.trim(),
+      images: editDestination.image ? [editDestination.image.trim()] : [],
     };
 
     try {
@@ -136,18 +139,35 @@ const DestinationsPage = () => {
       );
 
       const data = await response.json();
-      if (!response.ok) throw new Error(data.message || "Failed to update");
+      if (!response.ok)
+        throw new Error(data.message || "Failed to update destination");
 
-      // Update local state
+      // ✅ Update the state with new values (instant UI update)
       setDestinations((prev) =>
         prev.map((dest) =>
           dest.id === editDestination.id
-            ? { ...dest, ...updatedData, image: editDestination.image }
+            ? {
+                ...dest,
+                ...updatedData,
+                image: updatedData.images[0] || dest.image,
+                location: `${updatedData.city}, ${updatedData.country}`,
+              }
             : dest
         )
       );
 
       setShowEditModal(false);
+      setEditDestination({
+        id: "",
+        name: "",
+        description: "",
+        country: "",
+        state: "",
+        city: "",
+        image: "",
+        bestSeason: "",
+      });
+
       alert("✅ Destination updated successfully!");
     } catch (err) {
       alert("❌ " + err.message);
@@ -159,7 +179,7 @@ const DestinationsPage = () => {
 
   return (
     <div className="destinations-page">
-      <h1>Popular Destinations</h1>
+      <h1>Destinations</h1>
 
       <div className="btn">
         <button
@@ -176,8 +196,8 @@ const DestinationsPage = () => {
             <DestinationCard
               key={destination.id}
               destination={destination}
-              onDelete={() => handleDelete(destination.id)}
-              onEdit={() => handleEdit(destination)}
+              onDelete={handleDelete}
+              onEdit={handleEdit} // ✅ pass reference only
             />
           ))
         ) : (

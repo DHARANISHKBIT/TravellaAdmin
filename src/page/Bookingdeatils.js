@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./BookingDeatilscss.css";
 
 const TripBookingDashboard = () => {
@@ -8,40 +8,42 @@ const TripBookingDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const token = localStorage.getItem("authToken");
+  // ✅ Store token in useRef so it doesn't cause re-renders
+  const tokenRef = useRef(localStorage.getItem("authToken"));
 
-  // ✅ Fetch all bookings
+  // ✅ Fetch bookings only once (on mount)
+  const fetchBookings = async () => {
+    try {
+      const res = await fetch(
+        "https://travella-server-v2.onrender.com/api/bookings/userbookings",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenRef.current}`,
+          },
+        }
+      );
+
+      if (!res.ok) throw new Error("Failed to fetch bookings");
+
+      const data = await res.json();
+      setBookings(Array.isArray(data) ? data : []);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchBookings = async () => {
-      try {
-        const res = await fetch(
-          "https://travella-server-v2.onrender.com/api/bookings/userbookings",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (!res.ok) throw new Error("Failed to fetch bookings");
-
-        const data = await res.json();
-        setBookings(Array.isArray(data) ? data : []);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (token) fetchBookings();
+    if (tokenRef.current) fetchBookings();
     else {
       setError("No authentication token found. Please log in again.");
       setLoading(false);
     }
-  }, [token]);
+    // ✅ Empty dependency array → run only once
+  },[]);
 
   // ✅ Filter bookings by status
   const filteredBookings =
@@ -64,7 +66,7 @@ const TripBookingDashboard = () => {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${tokenRef.current}`,
           },
           body: JSON.stringify({ status: modal.action }),
         }
@@ -72,7 +74,7 @@ const TripBookingDashboard = () => {
 
       if (!res.ok) throw new Error("Failed to update booking status");
 
-      // Update state locally
+      // ✅ Update state locally
       setBookings((prev) =>
         prev.map((b, idx) =>
           idx === modal.bookingIndex ? { ...b, status: modal.action } : b
@@ -139,9 +141,7 @@ const TripBookingDashboard = () => {
               <div key={booking._id || index} className="booking-card">
                 <div
                   className="booking-image"
-                  style={{
-                    backgroundImage: `url(${destinationImage})`,
-                  }}
+                  style={{ backgroundImage: `url(${destinationImage})` }}
                 ></div>
 
                 <div className="booking-info">

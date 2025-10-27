@@ -13,6 +13,9 @@ import DestinationsPage from './page/Destinotionpage';
 import PlacesForDestination from './page/Placefordestination';
 import TripBookingDashboard from './page/Bookingdeatils';
 import AddPlace from './page/Addplace';
+import HotelsPage from './page/Hotelpage';
+import CarRentalsPage from './page/CarRentalsPage';
+import Userspage from './page/Userspage';
 
 function App() {
   return (
@@ -26,9 +29,11 @@ function App() {
           <Route path="/Addplace" element={<AddPlace/>} />
           <Route path="/places" element={<Places />} />
           <Route path="/hotels" element={<Hotels />} />
+          <Route path="/hotelpage" element={<HotelsPage/>} />
           <Route path="/car-rent" element={<CarRent />} />
+          <Route path="/car-rent-page" element={<CarRentalsPage/>} />
           <Route path="/bookings" element={<TripBookingDashboard/>} />
-          <Route path="/users" element={<Users />} />
+          <Route path="/users" element={<Userspage/>} />
           <Route path="/reports" element={<Reports />} />
         </Route>
       </Routes>

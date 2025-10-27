@@ -60,7 +60,12 @@ html,
   background-color: #1193d4;
   color: #fff;
 }
+.ti{
+  font-size: 24px;
+  margin-top: 10px;
+  font-weight: 600;
 
+}
 .sidebar a:hover {
   background-color: #e5e7eb;
 }
