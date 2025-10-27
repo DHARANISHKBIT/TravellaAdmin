@@ -1,29 +1,28 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import "./BookingDeatilscss.css";
+import { useAuth } from "../context/AuthContext"; // ✅ import Auth context
+import { api } from "../services/api";
 
 const TripBookingDashboard = () => {
+  const { user } = useAuth(); // ✅ get logged-in admin or user info
   const [bookings, setBookings] = useState([]);
   const [filter, setFilter] = useState("All");
   const [modal, setModal] = useState({ isOpen: false, bookingIndex: null, action: "" });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // ✅ Store token in useRef so it doesn't cause re-renders
-  const tokenRef = useRef(localStorage.getItem("authToken"));
+
+
 
   // ✅ Fetch bookings only once (on mount)
   const fetchBookings = async () => {
     try {
-      const res = await fetch(
-        "https://travella-server-v2.onrender.com/api/bookings/userbookings",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${tokenRef.current}`,
-          },
-        }
-      );
+      const res = await fetch("https://travella-server-v2.onrender.com/api/bookings/userbookings", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`, // ✅ include token if available
+        },
+      });
 
       if (!res.ok) throw new Error("Failed to fetch bookings");
 
@@ -36,14 +35,10 @@ const TripBookingDashboard = () => {
     }
   };
 
+  // ✅ Run once on component mount
   useEffect(() => {
-    if (tokenRef.current) fetchBookings();
-    else {
-      setError("No authentication token found. Please log in again.");
-      setLoading(false);
-    }
-    // ✅ Empty dependency array → run only once
-  },[]);
+    fetchBookings();
+  }, []); // ✅ no dependency to avoid reload loop
 
   // ✅ Filter bookings by status
   const filteredBookings =
@@ -61,12 +56,12 @@ const TripBookingDashboard = () => {
 
     try {
       const res = await fetch(
-        `https://travella-server-v2.onrender.com/api/bookings/${booking._id}`,
+        `https://travella-server-v2.onrender.com/api/booking/${booking._id}/status`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${tokenRef.current}`,
+            Authorization: `Bearer ${user?.token}`,
           },
           body: JSON.stringify({ status: modal.action }),
         }

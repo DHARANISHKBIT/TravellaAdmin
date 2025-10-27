@@ -1,6 +1,9 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
 import AdminLayout from './layout/AdminLayout';
+import AdminLogin from './page/AdminLogin';
 import Home from './page/Home';
 import Destination from './page/Destination';
 import Hotels from './page/Hotels';
@@ -19,25 +22,32 @@ import Userspage from './page/Userspage';
 
 function App() {
   return (
-    <div className="App">
-      <Routes>
-        <Route element={<AdminLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/destination" element={<Destination />} />
-          <Route path="/destinationpage" element={<DestinationsPage/>} />
-          <Route path="/Addplacefordestination" element={<PlacesForDestination/>} />
-          <Route path="/Addplace" element={<AddPlace/>} />
-          <Route path="/places" element={<Places />} />
-          <Route path="/hotels" element={<Hotels />} />
-          <Route path="/hotelpage" element={<HotelsPage/>} />
-          <Route path="/car-rent" element={<CarRent />} />
-          <Route path="/car-rent-page" element={<CarRentalsPage/>} />
-          <Route path="/bookings" element={<TripBookingDashboard/>} />
-          <Route path="/users" element={<Userspage/>} />
-          <Route path="/reports" element={<Reports />} />
-        </Route>
-      </Routes>
-    </div>
+    <AuthProvider>
+      <div className="App">
+        <Routes>
+          <Route path="/login" element={<AdminLogin />} />
+          <Route element={
+            <ProtectedRoute>
+              <AdminLayout />
+            </ProtectedRoute>
+          }>
+            <Route path="/" element={<Home />} />
+            <Route path="/destination" element={<Destination />} />
+            <Route path="/destinationpage" element={<DestinationsPage/>} />
+            <Route path="/Addplacefordestination" element={<PlacesForDestination/>} />
+            <Route path="/Addplace" element={<AddPlace/>} />
+            <Route path="/places" element={<Places />} />
+            <Route path="/hotels" element={<Hotels />} />
+            <Route path="/hotelpage" element={<HotelsPage/>} />
+            <Route path="/car-rent" element={<CarRent />} />
+            <Route path="/car-rent-page" element={<CarRentalsPage/>} />
+            <Route path="/bookings" element={<TripBookingDashboard/>} />
+            <Route path="/users" element={<Userspage/>} />
+            <Route path="/reports" element={<Reports />} />
+          </Route>
+        </Routes>
+      </div>
+    </AuthProvider>
   );
 }
 
