@@ -12,9 +12,36 @@ const AdminDashboard = () => {
     pendingBookings: 0,
     totalUsers: 0,
   });
+const [bookings, setBookings] = useState([]);
+const [error, setError] = useState(null);
+const [loading, setLoading] = useState(true);
+  const fetchBookings = async () => {
+      try {
+        const res = await fetch(
+          "https://travella-server-v2.onrender.com/api/bookings/userbookings",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!res.ok) throw new Error("Failed to fetch bookings");
+
+        const data = await res.json();
+        setBookings(Array.isArray(data) ? data : []);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
   // 🔹 Fetch booking stats
   useEffect(() => {
+    
     const fetchStats = async () => {
       if (!token) {
         console.warn("No authentication token found.");
@@ -60,6 +87,7 @@ const AdminDashboard = () => {
     };
 
     fetchStats();
+    fetchBookings();
   }, [token]);
 
   // 🔹 Handle navigation
@@ -121,29 +149,41 @@ const AdminDashboard = () => {
 
       {/* Recent Activity */}
       <div className="recent-activity">
-        <ul>
-          {[
-            { title: "New Booking: #B12345", text: "John Doe booked a trip to Paris." },
-            { title: "New User Registered", text: "jane.doe@example.com" },
-            { title: "System Alert", text: "Pending approval for new hotel listing." },
-            { title: "New Listing Added", text: "The Grand Hotel in New York." },
-             { title: "New Booking: #B12345", text: "John Doe booked a trip to Paris." },
-            { title: "New User Registered", text: "jane.doe@example.com" },
-            { title: "System Alert", text: "Pending approval for new hotel listing." },
-            { title: "New Listing Added", text: "The Grand Hotel in New York." },
-          ].map((act, i) => (
-            <li key={i}>
-              <div className="activity-info">
-                <div className="icon">✓</div>
-                <div>
-                  <p className="title">{act.title}</p>
-                  <p className="text">{act.text}</p>
+        <h3>Recent Bookings</h3>
+        {loading ? (
+          <p>Loading recent activity...</p>
+        ) : error ? (
+          <p className="error">Error: {error}</p>
+        ) : bookings.length === 0 ? (
+          <p>No recent activity found.</p>
+        ) : (
+          <ul>
+            {bookings.slice(-5).reverse().map((booking, i) => (
+              <li key={i}>
+                <div className="activity-info">
+                  <div className="icon">✓</div>
+                  <div>
+                    <p className="title">
+                      New Booking:{" "}
+                      <strong>{booking.destinationId?.name || "Unknown"}</strong>
+                    </p>
+                    <p className="text">
+                      {booking.userId?.username || "Unknown user"} booked a trip
+                      to{" "}
+                      {booking.destinationId?.city
+                        ? `${booking.destinationId.city}, ${booking.destinationId.country}`
+                        : "a destination"}
+                      .
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <p className="time">2 min ago</p>
-            </li>
-          ))}
-        </ul>
+                <p className="time">
+                  {new Date(booking.createdAt).toLocaleString()}
+                </p>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );
